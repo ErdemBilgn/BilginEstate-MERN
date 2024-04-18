@@ -37,6 +37,7 @@ export default function Navbar() {
           <Link to="/profile">
             {currentUser ? (
               <img
+                referrerPolicy="no-referrer"
                 className="rounded-full h-7 w-7 object-cover"
                 src={currentUser.avatar}
               />
