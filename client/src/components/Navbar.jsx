@@ -1,7 +1,10 @@
 import { FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function Navbar() {
+  const { currentUser } = useSelector((state) => state.user);
+
   return (
     <nav className="bg- bg-slate-200 shadow-md">
       <div className="flex justify-between items-center max-w-screen-2xl mx-auto p-3">
@@ -30,10 +33,18 @@ export default function Navbar() {
               About
             </li>
           </Link>
-          <Link to="/signin">
-            <li className="text-slate-700 text-sm sm:text-lg hover:underline">
-              Sign in
-            </li>
+
+          <Link to="/profile">
+            {currentUser ? (
+              <img
+                className="rounded-full h-7 w-7 object-cover"
+                src={currentUser.avatar}
+              />
+            ) : (
+              <li className="text-slate-700 text-sm sm:text-lg hover:underline">
+                Sign in
+              </li>
+            )}
           </Link>
         </ul>
       </div>
