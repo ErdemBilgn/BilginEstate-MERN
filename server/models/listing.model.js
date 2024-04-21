@@ -13,7 +13,7 @@ const listingSchema = new Schema(
       required: true,
     },
 
-    adress: {
+    address: {
       type: String,
       required: true,
     },
@@ -58,7 +58,7 @@ const listingSchema = new Schema(
       required: true,
     },
 
-    imageURLS: {
+    imageUrls: {
       type: Array,
       required: true,
     },
