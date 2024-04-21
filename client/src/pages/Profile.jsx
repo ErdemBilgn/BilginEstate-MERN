@@ -30,6 +30,8 @@ export default function Profile() {
   const [formData, setFormData] = useState({});
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const dispatch = useDispatch();
+  const [showListingsError, setShowListingsError] = useState(false);
+  const [userListings, setUserListings] = useState([]);
   //firebase storage rules =
   // allow read
   // allow write: if
@@ -130,6 +132,21 @@ export default function Profile() {
     }
   };
 
+  const handleShowListings = async () => {
+    try {
+      setShowListingsError(false);
+      const res = await fetch(`/api/user/listings/${currentUser._id}`);
+      const data = await res.json();
+      if (data.success === false) {
+        setShowListingsError(true);
+        return;
+      }
+      setUserListings(data);
+    } catch (err) {
+      setShowListingsError(true);
+    }
+  };
+
   return (
     <div className="p-3 max-w-2xl mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">Profile</h1>
@@ -223,6 +240,46 @@ export default function Profile() {
       <p className="text-green-700 font-semibold mt-5">
         {updateSuccess ? "Successfully Updated Your Profile!" : ""}
       </p>
+      <button
+        onClick={handleShowListings}
+        className="text-green-700 w-full uppercase"
+      >
+        Show Listings
+      </button>
+      <p className="text-red-700 mt-5">
+        {showListingsError ? "Error Showing Listings" : ""}
+      </p>
+
+      {userListings && userListings.length > 0 && (
+        <div className="flex flex-col gap-4">
+          <h1 className="text-center mt-7 text-2xl font-semibold">
+            Your Listings
+          </h1>
+          {userListings.map((listing, index) => (
+            <div
+              key={listing._id}
+              className="border rounded-lg p-3 flex justify-between items-center gap-4"
+            >
+              <Link to={`/listing/${listing._id}`}>
+                <img
+                  src={listing.imageUrls[0]}
+                  className="h-16  object-contain rounded-lg"
+                />
+              </Link>
+              <Link
+                to={`/listing/${listing._id}`}
+                className="flex-1 text-slate-700 font-semibold hover:underline truncate"
+              >
+                <p>{listing.name}</p>
+              </Link>
+              <div className="flex flex-col gap-1 items-center">
+                <button className="text-green-700 uppercase">EDIT</button>
+                <button className="text-red-700 uppercase">DELETE</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
