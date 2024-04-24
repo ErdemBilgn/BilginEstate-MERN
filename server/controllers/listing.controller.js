@@ -21,7 +21,26 @@ export const deleteListing = async (req, res, next) => {
 
   try {
     await Listing.findByIdAndDelete(id);
-    return res.status(200).json({ message: "Listing has been deleted" });
+    res.status(200).json({ message: "Listing has been deleted" });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const updateListing = async (req, res, next) => {
+  const { id } = req.params;
+  const listing = await Listing.findById(id);
+  if (!listing) return next(errorHandler(404, "Listing could not found!"));
+
+  if (req.user.id !== listing.userRef)
+    return next(errorHandler(401, "You can only update your own listings"));
+
+  try {
+    const updatedListing = await Listing.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
+
+    res.status(200).json(updatedListing);
   } catch (err) {
     next(err);
   }
