@@ -95,7 +95,7 @@ export default function Listing() {
             </p>
           )}
 
-          <div className="flex flex-col max-w-screen-xl mx-auto p-3 my-4 gap-4">
+          <div className="flex flex-col max-w-screen-2xl mx-auto p-3 my-8 gap-4">
             <p className="text-2xl font-bold">
               {listing.name} - ${" "}
               {listing.offer
@@ -144,7 +144,7 @@ export default function Listing() {
               </li>
               <li className="flex items-center gap-1 whitespace-nowrap ">
                 <FaChair className="text-lg" />
-                {listing.furnished ? "Furnished" : "Unfurnished"}
+                {listing.furnished ? "Furnished" : "Not furnished"}
               </li>
             </ul>
             {currentUser &&
