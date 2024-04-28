@@ -6,6 +6,7 @@ import authRouter from "./router/auth.route.js";
 import listingRouter from "./router/listing.route.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import path from "path";
 
 dotenv.config();
 const app = express();
@@ -26,9 +27,17 @@ mongoose
     console.log(err);
   });
 
+const __dirname = path.resolve();
+
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/listing", listingRouter);
+
+app.use(express.static(path.join(__dirname, "/client/dist")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+});
 
 // Error handling middleware
 app.use((err, req, res, next) => {
