@@ -15,19 +15,33 @@ Click on the image to watch the preview video!
 ## Frontend
 
 The frontend of this project is created with ReactJs. Redux Toolkit and Firebase is used for the authentication.
+<br/>
+To start the frontend:<br/>
 
-To start the frontend:
-`cd client`
-`npm install`
-`npm run dev`
+`cd client`<br/>
 
-Also .env file has to be created.
-.env content:
-`VITE_FIREBASE_API_KEY= from firebase`
+`npm install`<br/>
+
+`npm run dev`<br/>
+
+Also .env file has to be created.<br/>
+
+.env content:<br/>
+
+`VITE_FIREBASE_API_KEY= from firebase`<br/>
 
 ### Screenshots:
 
 #### Home Page:
 
 ![HomeScreen1](OverviewImages/Homepage1.PNG)
-![HomeScreen1](OverviewImages/Homepage2.PNG)
+![HomeScreen2](OverviewImages/Homepage2.PNG)
+
+#### About Page:
+
+![AboutPage](OverviewImages/About.PNG)
+
+#### Signup Page:
+
+![SignupPage](OverviewImages/SignuppagePNG)
+![LoginPage](OverviewImages/Loginpage.PNG)
