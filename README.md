@@ -61,3 +61,18 @@ Also .env file has to be created.<br/>
 #### Listing Page:
 
 ![Listing](OverviewImages/Listing.PNG)
+
+## Backend
+
+The backend of this project is created with ExpressJS. JWT is used for the authentication. MongoDB is used for the database. <br/>
+To start the backend:<br/>
+`npm install` <br/>
+`npm run dev`<br/>
+
+Also .env file has to be created <br/>
+.env content: <br/>
+
+```
+MONGO_URI = from MongoDB
+ACCESS_TOKEN_SECRET = your key for jwt tokens.
+```
