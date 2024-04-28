@@ -3,7 +3,6 @@ import {
   deleteUser,
   getUser,
   getUserListings,
-  test,
   updateUser,
 } from "../controllers/user.controller.js";
 import { verifyToken } from "../utils/verifyToken.js";
