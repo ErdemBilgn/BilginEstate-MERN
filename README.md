@@ -10,7 +10,7 @@ Click on the image to watch the preview video!
 
 ## Links:
 
-### Demo Link
+### Demo Link - https://bilginestate-mern.onrender.com/
 
 ## Frontend
 
