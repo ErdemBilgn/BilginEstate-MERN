@@ -92,6 +92,7 @@ export const google = async (req, res, next) => {
         .json(rest);
     }
   } catch (err) {
+    console.log(err);
     next(err);
   }
 };
