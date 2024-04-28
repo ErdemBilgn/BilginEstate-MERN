@@ -7,6 +7,7 @@ import {
   signInFailure,
 } from "../redux/user/userSlice";
 import OAuth from "../components/OAuth";
+import Swal from "sweetalert2";
 
 export default function SignIn() {
   const [formData, setFormData] = useState({});
@@ -39,6 +40,13 @@ export default function SignIn() {
         return;
       }
       dispatch(signInSuccess(data));
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Welcome Back!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
       navigate("/");
     } catch (err) {
       dispatch(signInFailure());

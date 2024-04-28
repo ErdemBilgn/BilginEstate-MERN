@@ -1,6 +1,7 @@
 import Listing from "../models/listing.model.js";
 import { errorHandler } from "../utils/error.js";
 
+// Create Listing function
 export const createListing = async (req, res, next) => {
   try {
     const listing = await Listing.create(req.body);
@@ -10,6 +11,7 @@ export const createListing = async (req, res, next) => {
   }
 };
 
+// Delete listing function
 export const deleteListing = async (req, res, next) => {
   const { id } = req.params;
   const listing = await Listing.findById(id);
@@ -27,6 +29,7 @@ export const deleteListing = async (req, res, next) => {
   }
 };
 
+// Update listing function
 export const updateListing = async (req, res, next) => {
   const { id } = req.params;
   const listing = await Listing.findById(id);
@@ -46,6 +49,7 @@ export const updateListing = async (req, res, next) => {
   }
 };
 
+// Get a single listing function
 export const getListing = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -58,6 +62,7 @@ export const getListing = async (req, res, next) => {
   }
 };
 
+// Get all listings with given query function
 export const getListings = async (req, res, next) => {
   try {
     const limit = parseInt(req.query.limit) || 9;

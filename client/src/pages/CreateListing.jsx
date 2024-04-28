@@ -8,6 +8,7 @@ import {
 import { app } from "../firebase";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 export default function CreateListing() {
   const navigate = useNavigate();
@@ -33,6 +34,7 @@ export default function CreateListing() {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  // Handles the Image upload functionality
   const handleImageSubmit = () => {
     if (files.length > 0 && files.length + formData.imageUrls.length < 7) {
       setUploading(true);
@@ -62,6 +64,7 @@ export default function CreateListing() {
     }
   };
 
+  // Stores the Image(s) to the firebase storage
   const storeImage = async (file) => {
     return new Promise((resolve, reject) => {
       const storage = getStorage(app);
@@ -86,6 +89,7 @@ export default function CreateListing() {
     });
   };
 
+  // Handles Removing image
   const handleRemoveImage = (index) => {
     setFormData({
       ...formData,
@@ -93,6 +97,7 @@ export default function CreateListing() {
     });
   };
 
+  // Handles for changes
   const handleChange = (e) => {
     if (e.target.id === "sale" || e.target.id === "rent") {
       setFormData({
@@ -127,6 +132,7 @@ export default function CreateListing() {
     }
   };
 
+  // Handles Submitting the form
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -154,7 +160,13 @@ export default function CreateListing() {
       if (data.success === false) {
         setError(data.message);
       }
-
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Listing has been created!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
       navigate(`/listing/${data._id}`);
     } catch (err) {
       setError(err.message);

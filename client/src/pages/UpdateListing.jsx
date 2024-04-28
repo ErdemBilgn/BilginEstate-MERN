@@ -8,6 +8,7 @@ import {
 import { app } from "../firebase";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 
 export default function CreateListing() {
   const navigate = useNavigate();
@@ -170,6 +171,13 @@ export default function CreateListing() {
         setError(data.message);
       }
 
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Listing has been updated!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
       navigate(`/listing/${data._id}`);
     } catch (err) {
       setError(err.message);

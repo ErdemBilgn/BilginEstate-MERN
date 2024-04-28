@@ -18,6 +18,7 @@ export default function Search() {
   const [listings, setListings] = useState([]);
   const [showMore, setShowMore] = useState(false);
 
+  // Matches the sidebarData to url queries
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const searchTermFromUrl = urlParams.get("searchTerm");
@@ -48,6 +49,7 @@ export default function Search() {
       });
     }
 
+    // Fetches the listings with given queries
     const fetchListings = async () => {
       setShowMore(false);
       setLoading(true);
@@ -66,6 +68,7 @@ export default function Search() {
     fetchListings();
   }, [location.search]);
 
+  // Handles for changes
   const handleChange = (e) => {
     if (
       e.target.id === "all" ||
@@ -100,6 +103,7 @@ export default function Search() {
     }
   };
 
+  // Handles submitting the form
   const handleSubmit = (e) => {
     e.preventDefault();
     const urlParams = new URLSearchParams();
@@ -115,6 +119,7 @@ export default function Search() {
     navigate(`/search?${searchQuery}`);
   };
 
+  // Handles show more button functionality
   const onShowMoreClick = async () => {
     const numOfListings = listings.length;
     const startIndex = numOfListings;

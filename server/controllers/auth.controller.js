@@ -46,6 +46,7 @@ export const signin = async (req, res, next) => {
   }
 };
 
+// Google signin-signup function
 export const google = async (req, res, next) => {
   const { name, email, photoURL } = req.body;
   try {
@@ -95,6 +96,7 @@ export const google = async (req, res, next) => {
   }
 };
 
+// Signout function
 export const signout = async (req, res, next) => {
   try {
     res

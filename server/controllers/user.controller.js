@@ -3,10 +3,7 @@ import User from "../models/user.model.js";
 import { errorHandler } from "../utils/error.js";
 import bcryptjs from "bcryptjs";
 
-export const test = (req, res) => {
-  res.json({ message: "Api is working" });
-};
-
+// Update user function
 export const updateUser = async (req, res, next) => {
   if (req.user.id !== req.params.id)
     return next(errorHandler(401, "You can only update your own account!"));
@@ -37,6 +34,7 @@ export const updateUser = async (req, res, next) => {
   }
 };
 
+// Delete user function
 export const deleteUser = async (req, res, next) => {
   if (req.user.id !== req.params.id)
     return next(errorHandler(401, "You can only delete your own account!"));
@@ -52,6 +50,7 @@ export const deleteUser = async (req, res, next) => {
   }
 };
 
+// Get all listings for a user function
 export const getUserListings = async (req, res, next) => {
   if (req.user.id === req.params.id) {
     try {
@@ -65,6 +64,7 @@ export const getUserListings = async (req, res, next) => {
   }
 };
 
+// Get a single user function
 export const getUser = async (req, res, next) => {
   try {
     const { id } = req.params;

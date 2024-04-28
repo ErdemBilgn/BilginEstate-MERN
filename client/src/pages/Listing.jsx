@@ -27,6 +27,7 @@ export default function Listing() {
 
   const params = useParams();
 
+  // Fetches the listing .
   useEffect(() => {
     const fetchListing = async () => {
       try {
@@ -63,6 +64,7 @@ export default function Listing() {
       )}
       {listing && !loading && !error && (
         <div>
+          {/* Image Slider */}
           <Swiper navigation>
             {listing.imageUrls.map((url) => (
               <SwiperSlide key={url}>
@@ -77,6 +79,7 @@ export default function Listing() {
             ))}
           </Swiper>
 
+          {/* Copy Link Button */}
           <div
             onClick={() => {
               navigator.clipboard.writeText(window.location.href);

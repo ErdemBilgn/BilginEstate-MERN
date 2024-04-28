@@ -20,6 +20,7 @@ import {
   signoutUserFailure,
 } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
+import Swal from "sweetalert2";
 
 export default function Profile() {
   const fileRef = useRef(null);
@@ -28,7 +29,6 @@ export default function Profile() {
   const [filePersentage, setFilePersentage] = useState(0);
   const [fileError, setFileError] = useState(false);
   const [formData, setFormData] = useState({});
-  const [updateSuccess, setUpdateSuccess] = useState(false);
   const dispatch = useDispatch();
   const [showListingsError, setShowListingsError] = useState(false);
   const [userListings, setUserListings] = useState([]);
@@ -38,12 +38,14 @@ export default function Profile() {
   // request.resource.size < 2 * 1024 * 1024 &&
   // request.resource.contentType.matches("image/.*")
 
+  //Tracks and updates the file input changes
   useEffect(() => {
     if (file) {
       handleFileUpload(file);
     }
   }, [file]);
 
+  // handles image upload
   const handleFileUpload = (file) => {
     const storage = getStorage(app);
     const fileName = new Date().getTime() + file.name;
@@ -68,10 +70,12 @@ export default function Profile() {
     );
   };
 
+  // Handles form changes
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
+  // Handles submitting the form
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -91,31 +95,56 @@ export default function Profile() {
       }
 
       dispatch(updateUserSuccess(data));
-      setUpdateSuccess(true);
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Profile Updated!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     } catch (err) {
       dispatch(updateUserFailure(err.message));
     }
   };
 
+  // Handles account delete functionality.
   const handleDeleteUser = async () => {
-    try {
-      dispatch(deleteUserStart());
-      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
-        method: "DELETE",
-      });
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          dispatch(deleteUserStart());
+          const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+            method: "DELETE",
+          });
 
-      const data = res.json();
-      if (data.success === false) {
-        dispatch(updateUserFailure(data.message));
-        return;
+          const data = res.json();
+          if (data.success === false) {
+            dispatch(updateUserFailure(data.message));
+            return;
+          }
+
+          dispatch(deleteUserSuccess(data));
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your account has been deleted.",
+            icon: "success",
+          });
+        } catch (err) {
+          dispatch(deleteUserFailure(err.message));
+        }
       }
-
-      dispatch(deleteUserSuccess(data));
-    } catch (err) {
-      dispatch(deleteUserFailure(err.message));
-    }
+    });
   };
 
+  // Handles signout functionality
   const handleSignout = async () => {
     try {
       dispatch(signoutUserStart());
@@ -132,6 +161,7 @@ export default function Profile() {
     }
   };
 
+  // Handles show listings functionality
   const handleShowListings = async () => {
     try {
       setShowListingsError(false);
@@ -147,23 +177,43 @@ export default function Profile() {
     }
   };
 
+  // Handles listing delete functionality.
   const handleListingDelete = async (id) => {
-    try {
-      const res = await fetch(`/api/listing/delete/${id}`, {
-        method: "DELETE",
-      });
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await fetch(`/api/listing/delete/${id}`, {
+            method: "DELETE",
+          });
 
-      const data = await res.json();
+          const data = await res.json();
 
-      if (data.success == false) {
-        console.log(data.message);
-        return;
+          if (data.success == false) {
+            console.log(data.message);
+            return;
+          }
+
+          setUserListings((prev) =>
+            prev.filter((listing) => listing._id !== id)
+          );
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your listing has been deleted.",
+            icon: "success",
+          });
+        } catch (err) {
+          console.log(err.message);
+        }
       }
-
-      setUserListings((prev) => prev.filter((listing) => listing._id !== id));
-    } catch (err) {
-      console.log(err.message);
-    }
+    });
   };
 
   return (
@@ -256,9 +306,7 @@ export default function Profile() {
         </span>
       </div>
       <p className="text-red-700 font-semibold mt-5">{error ? error : ""}</p>
-      <p className="text-green-700 font-semibold mt-5">
-        {updateSuccess ? "Successfully Updated Your Profile!" : ""}
-      </p>
+
       <button
         onClick={handleShowListings}
         className="text-green-700 w-full uppercase"

@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 export default function Contact({ listing }) {
   const [landlord, setLandLord] = useState(null);
   const [message, setMessage] = useState("");
-  console.log(landlord);
 
   useEffect(() => {
     const fetchLandLord = async () => {

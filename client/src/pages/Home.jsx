@@ -12,6 +12,7 @@ export default function Home() {
   const [saleListings, setSaleListings] = useState([]);
   const [rentListings, setRentListings] = useState([]);
 
+  // Fetches the Listings for the home preview
   useEffect(() => {
     const fetchOfferListings = async () => {
       try {

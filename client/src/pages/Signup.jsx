@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import OAuth from "../components/OAuth";
+import Swal from "sweetalert2";
 
 export default function Signup() {
   const [formData, setFormData] = useState({});
@@ -35,6 +36,13 @@ export default function Signup() {
       }
       setLoading(false);
       setError(null);
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "The Account has been created!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
       navigate("/signin");
     } catch (err) {
       setLoading(false);
